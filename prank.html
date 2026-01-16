@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>⚠️ SYSTEM CRITICAL ERROR ⚠️</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --virus: #00ff00; --deadly: #ff0000; --bg: #050000; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Share Tech Mono', monospace; }
+        
+        body { background: var(--bg); color: var(--virus); overflow: hidden; height: 100vh; }
+
+        /* --- BACKGROUND DISTORTION --- */
+        #noise-canvas { position: fixed; inset: 0; z-index: -1; opacity: 0.1; pointer-events: none; }
+        
+        /* --- VIRUS HUD --- */
+        .hud-header { background: var(--deadly); color: white; padding: 5px; text-align: center; font-weight: bold; font-size: 12px; animation: blink 0.5s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .main-layout { display: grid; grid-template-columns: 1fr; grid-template-rows: auto 1fr auto; height: 100vh; }
+        
+        /* --- INTERACTIVE PANELS --- */
+        .console-box { padding: 15px; border: 1px solid var(--virus); margin: 10px; background: rgba(0,255,0,0.05); overflow-y: auto; }
+        .stat-line { margin-bottom: 5px; font-size: 11px; }
+        .stat-line b { color: white; }
+
+        /* --- THE ACADEMY FOLDER --- */
+        .folder { border: 2px dashed var(--virus); padding: 20px; margin: 10px; text-align: center; cursor: pointer; }
+        .folder:hover { background: var(--virus); color: black; }
+
+        /* --- VIRUS ATTACK OVERLAY --- */
+        #virus-screen {
+            position: fixed; inset: 0; background: #000; z-index: 10000; display: none;
+            flex-direction: column; align-items: center; justify-content: center; text-align: center;
+        }
+        .scary-text { font-family: 'Nosifer', cursive; font-size: 40px; color: var(--deadly); margin-bottom: 20px; }
+        .progress-container { width: 80%; border: 1px solid var(--deadly); height: 30px; margin-top: 20px; }
+        #p-bar { height: 100%; background: var(--deadly); width: 0%; }
+
+        /* --- BUTTONS --- */
+        .btn { width: 100%; padding: 15px; background: none; border: 1px solid var(--deadly); color: var(--deadly); font-weight: bold; cursor: pointer; margin-top: 10px; }
+        
+    </style>
+</head>
+<body onclick="enableVirus()">
+
+    <div id="boot" style="position:fixed; inset:0; background:black; z-index:20000; display:flex; flex-direction:column; align-items:center; justify-content:center; padding: 20px; text-align: center;">
+        <h1 style="font-family: 'Creepster', cursive; font-size: 50px; color: var(--deadly);">NASG VIRUS-X</h1>
+        <p style="margin: 20px 0; font-size: 14px;">Warning: This system is protected by bio-digital encryption. Do not proceed unless you are the administrator.</p>
+        <button class="btn" onclick="initSystem()" style="border-color: var(--virus); color: var(--virus); width: 200px;">ACCESS SYSTEM</button>
+    </div>
+
+    <div class="main-layout">
+        <div class="hud-header">SYSTEM INFECTED - NASG VIRUS-X CORE</div>
+
+        <div style="overflow-y: auto;">
+            <div class="console-box">
+                <h3 style="color:white; border-bottom:1px solid; margin-bottom:10px;">TARGET_RECON</h3>
+                <div class="stat-line">DEVICE: <b id="d-p">Loading...</b></div>
+                <div class="stat-line">IP_ADDRESS: <b id="d-ip">Scanning...</b></div>
+                <div class="stat-line">ISP: <b id="d-isp">Vodacom/Tigo/Airtel...</b></div>
+                <div class="stat-line">BATTERY: <b id="d-bat">--</b></div>
+            </div>
+
+            <div class="folder" onclick="openAcademy()">
+                <i class="fas fa-biohazard fa-3x"></i><br><br>
+                <h3>OPEN VIRUS ACADEMY</h3>
+                <p style="font-size: 10px;">(Hacking Tutorials & Malware Scripts)</p>
+            </div>
+
+            <div class="console-box" style="height: 150px; border-color: var(--deadly);">
+                <h3 style="color:var(--deadly);">LIVE_NOTIFICATIONS</h3>
+                <div id="notif-feed" style="font-size: 10px; color: var(--deadly);"></div>
+            </div>
+        </div>
+
+        <div style="padding: 10px;">
+            <button class="btn" onclick="activateVirus()">ACTIVATE VIRUS-X</button>
+        </div>
+    </div>
+
+    <div id="virus-screen">
+        <div class="scary-text">HACKED BY NASG</div>
+        <i class="fas fa-skull-crossbones fa-5x" style="color:var(--deadly); animation: shake 0.1s infinite;"></i>
+        <div class="progress-container">
+            <div id="p-bar"></div>
+        </div>
+        <p id="p-status" style="margin-top:10px; font-size:12px;">ENCRYPTING STORAGE...</p>
+        <p style="color:white; font-size: 10px; margin-top: 40px;">POLICE NOTIFIED. GPS TRACKING ACTIVE.</p>
+    </div>
+
+    <audio id="sfx-alarm" loop src="https://www.soundjay.com/misc/sounds/police-siren-1.mp3"></audio>
+    <audio id="sfx-static" loop src="https://www.soundjay.com/communication/radio-static-1.mp3"></audio>
+
+    <script>
+        // --- BOOT UP ---
+        function initSystem() {
+            document.getElementById('boot').style.display = 'none';
+            if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+            document.getElementById('sfx-static').play();
+            startFeeds();
+        }
+
+        // --- FETCH REAL DATA ---
+        fetch('https://api.ipify.org?format=json')
+            .then(res => res.json())
+            .then(data => document.getElementById('d-ip').innerText = data.ip);
+
+        document.getElementById('d-p').innerText = navigator.platform;
+        navigator.getBattery().then(b => document.getElementById('d-bat').innerText = (b.level * 100) + "%");
+
+        // --- FAKE NOTIFICATION FEED ---
+        const msgs = ["WhatsApp: Mambo?", "Bank: Tsh 250,000 sent to...", "System: Security Breach!", "Gallery: Uploading 1,402 photos..."];
+        function startFeeds() {
+            const feed = document.getElementById('notif-feed');
+            setInterval(() => {
+                const p = document.createElement('div');
+                p.innerText = `> ${msgs[Math.floor(Math.random()*msgs.length)]}`;
+                feed.prepend(p);
+                if(navigator.vibrate) navigator.vibrate(50);
+            }, 3000);
+        }
+
+        // --- THE ACADEMY ---
+        function openAcademy() {
+            alert("NASG ACADEMY:\n1. Keylogger Setup (Step by Step)\n2. Phishing with Termux\n3. Creating Android APK Virus\n\nDownload Links Unlocked in Terminal.");
+        }
+
+        // --- VIRUS ACTIVATION ---
+        function activateVirus() {
+            document.getElementById('virus-screen').style.display = 'flex';
+            document.getElementById('sfx-alarm').play();
+            
+            let progress = 0;
+            const bar = document.getElementById('p-bar');
+            const status = document.getElementById('p-status');
+            
+            const int = setInterval(() => {
+                progress += 1;
+                bar.style.width = progress + "%";
+                if(progress == 20) status.innerText = "ACCESSING CONTACTS...";
+                if(progress == 50) status.innerText = "SENDING EXPLOIT TO FRIENDS...";
+                if(progress == 80) status.innerText = "DELETING DCIM/CAMERA FOLDER...";
+                
+                if(progress >= 100) {
+                    clearInterval(int);
+                    status.innerText = "SYSTEM DESTROYED.";
+                    if(navigator.vibrate) navigator.vibrate(5000);
+                    setTimeout(() => {
+                        alert("UNAKUWA NA HOFU SANA! 😂\nThis is a NASG VIRUS-X Simulation.\nDon't worry, your phone is safe.");
+                        location.reload();
+                    }, 2000);
+                }
+            }, 100);
+
+            // Force "Don't Close"
+            window.onbeforeunload = function() { return "VIRUS INAFUTA DATA, USIFUNGE!"; };
+        }
+
+        function enableVirus() { console.log("Virus Engine Ready."); }
+    </script>
+</body>
+</html>
